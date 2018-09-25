@@ -45,7 +45,7 @@ def main(argv=None):
 
 def _write_to_file(fname, steps):
     with open(fname, 'w') as f:
-        for k, vv in steps.items():
+        for k, vv in sorted(steps.items(), key=lambda x: x[0]):
             idx = k.find('stepdefinitions')
             f.write(k[idx + 16:])
             f.write('\n')

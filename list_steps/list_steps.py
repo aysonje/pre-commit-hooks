@@ -45,7 +45,12 @@ def main(argv=None):
 
 def _write_to_file(fname, steps):
     with open(fname, 'w') as f:
+        first = True
         for k, vv in sorted(steps.items(), key=lambda x: x[0]):
+            if first:
+                first = False
+            else:
+                f.write('\n')
             idx = k.find('stepdefinitions')
             f.write(k[idx + 16:])
             f.write('\n')
@@ -53,7 +58,6 @@ def _write_to_file(fname, steps):
                 f.write('\t')
                 f.write(v)
                 f.write('\n')
-            f.write('\n')
 
 
 if __name__ == '__main__':

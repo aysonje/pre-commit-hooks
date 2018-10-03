@@ -8,9 +8,9 @@ import re
 from collections import defaultdict
 
 
-GIVEN_PAT = re.compile('^Given\(\"(.+?)\", async.+$')
-WHEN_PAT = re.compile('^When\(\"(.+?)\", async.+$')
-THEN_PAT = re.compile('^Then\(\"(.+?)\", async.+$')
+GIVEN_PAT = re.compile('^Given\(\"(.+)\", .+$')
+WHEN_PAT = re.compile('^When\(\"(.+)\", .+$')
+THEN_PAT = re.compile('^Then\(\"(.+)\", .+$')
 
 
 def main(argv=None):

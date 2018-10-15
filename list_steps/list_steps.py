@@ -8,9 +8,9 @@ import re
 from collections import defaultdict
 
 
-GIVEN_PAT = re.compile('^Given\(\"(.+)\", .+$')
-WHEN_PAT = re.compile('^When\(\"(.+)\", .+$')
-THEN_PAT = re.compile('^Then\(\"(.+)\", .+$')
+GIVEN_PAT = re.compile('Given\((?:\n\s+){0,1}\"(.+)\",(?:\n\s+){0,1}.+')
+WHEN_PAT = re.compile('When\((?:\n\s+){0,1}\"(.+)\",(?:\n\s+){0,1}.+')
+THEN_PAT = re.compile('Then\((?:\n\s+){0,1}\"(.+)\",(?:\n\s+){0,1}.+')
 
 
 def main(argv=None):
@@ -20,18 +20,13 @@ def main(argv=None):
 
     for filename in glob.iglob('**/stepdefinitions/**/*.ts', recursive=True):
         with open(filename) as f:
-            for line in f.readlines():
-                m = GIVEN_PAT.match(line)
-                if m:
-                    givens[filename].append(m.groups()[0])
-
-                m = WHEN_PAT.match(line)
-                if m:
-                    whens[filename].append(m.groups()[0])
-
-                m = THEN_PAT.match(line)
-                if m:
-                    thens[filename].append(m.groups()[0])
+            content = f.read()
+            for m in re.findall(GIVEN_PAT, content):
+                givens[filename].append(m)
+            for m in re.findall(WHEN_PAT, content):
+                whens[filename].append(m)
+            for m in re.findall(THEN_PAT, content):
+                thens[filename].append(m)
 
     _write_to_file('compiled_given_steps.txt', givens)
     _write_to_file('compiled_when_steps.txt', whens)
